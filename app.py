@@ -368,10 +368,12 @@ with tabs[4]:
         textfont=dict(color=FONT_CLR, size=11),
         hovertemplate="<b>%{y}</b><br>%{x} laureates<extra></extra>",
     ))
-    fig_loli.update_layout(
-        **base_layout(height=500),
-        xaxis_title="Number of Laureates",
-        yaxis_title=None,
+   fig_loli.update_layout(
+    height=500,
+    xaxis=dict(...),
+    yaxis=dict(...)
+)
+)
         xaxis=dict(range=[0, top15["count"].max() * 1.25],
                    gridcolor=GRID_CLR),
     )
