@@ -395,6 +395,54 @@ with tabs[4]:
 )
 
     st.plotly_chart(fig_loli, use_container_width=True)
+# ─────────────────────────────────────────────────────────────
+# TAB 6 · HEATMAP (Gender × Category)
+# ─────────────────────────────────────────────────────────────
+with tabs[5]:
+    st.subheader("Nobel Prizes by Category and Gender")
+
+    df_heat = dff.copy()
+
+    df_heat["sex_clean"] = df_heat.apply(
+        lambda r: "Organization"
+        if r.get("laureate_type") == "Organization"
+        else (
+            r.get("sex")
+            if pd.notna(r.get("sex")) and r.get("sex") != ""
+            else "Unknown"
+        ),
+        axis=1,
+    )
+
+    pivot = (
+        df_heat.groupby(["sex_clean", "category"])
+        .size()
+        .unstack(fill_value=0)
+    )
+
+    if pivot.empty:
+        st.warning("No gender/category data available.")
+    else:
+        fig_heat = go.Figure(
+            data=go.Heatmap(
+                z=pivot.values,
+                x=pivot.columns,
+                y=pivot.index,
+                colorscale="Blues",
+                text=pivot.values,
+                texttemplate="%{text}",
+            )
+        )
+
+        fig_heat.update_layout(
+            height=350,
+            plot_bgcolor=PLOT_BG,
+            paper_bgcolor=PAPER_BG,
+            font=dict(color=FONT_CLR),
+            margin=dict(l=60, r=30, t=50, b=50),
+        )
+
+        st.plotly_chart(fig_heat, use_container_width=True)
 
 # ─────────────────────────────────────────────────────────────
 # TAB 7 · WORLD MAP
