@@ -344,31 +344,40 @@ with tabs[4]:
         .head(15)
         .sort_values("count")
     )
+
     fig_loli = go.Figure()
+
     # stems
     for _, row in top15.iterrows():
         fig_loli.add_shape(
             type="line",
-            x0=0, x1=row["count"],
-            y0=row["birth_country"], y1=row["birth_country"],
+            x0=0,
+            x1=row["count"],
+            y0=row["birth_country"],
+            y1=row["birth_country"],
             line=dict(color="#1e2545", width=2),
         )
-    # dots with gradient color
-    fig_loli.add_trace(go.Scatter(
-        x=top15["count"], y=top15["birth_country"],
-        mode="markers+text",
-        marker=dict(
-            size=14,
-            color=top15["count"],
-            colorscale=[[0, "#9ecae1"], [1, "#08306b"]],
-            showscale=False,
-        ),
-        text=top15["count"],
-        textposition="middle right",
-        textfont=dict(color=FONT_CLR, size=11),
-        hovertemplate="<b>%{y}</b><br>%{x} laureates<extra></extra>",
-    ))
-      fig_loli.update_layout(
+
+    # dots
+    fig_loli.add_trace(
+        go.Scatter(
+            x=top15["count"],
+            y=top15["birth_country"],
+            mode="markers+text",
+            marker=dict(
+                size=14,
+                color=top15["count"],
+                colorscale=[[0, "#9ecae1"], [1, "#08306b"]],
+                showscale=False,
+            ),
+            text=top15["count"],
+            textposition="middle right",
+            textfont=dict(color=FONT_CLR, size=11),
+            hovertemplate="<b>%{y}</b><br>%{x} laureates<extra></extra>",
+        )
+    )
+
+    fig_loli.update_layout(
         **base_layout(height=500),
         showlegend=False,
         xaxis=dict(
@@ -382,34 +391,6 @@ with tabs[4]:
     )
 
     st.plotly_chart(fig_loli, use_container_width=True)
-    st.plotly_chart(fig_loli, use_container_width=True)
-
-# ─────────────────────────────────────────────────────────────
-# TAB 6 · HEATMAP (Gender × Category)
-# ─────────────────────────────────────────────────────────────
-with tabs[5]:
-    st.subheader("Nobel Prizes by Category and Gender")
-
-    df_heat = dff.copy()
-    df_heat["sex_clean"] = df_heat.apply(
-        lambda r: "Organization"
-        if r.get("laureate_type") == "Organization"
-        else (r.get("sex") if pd.notna(r.get("sex")) else "Unknown"),
-        axis=1,
-    )
-    pivot = (
-        df_heat.groupby(["sex_clean", "category"])
-        .size().unstack(fill_value=0)
-    )
-    fig_heat = px.imshow(
-        pivot,
-        color_continuous_scale=["#0d1225", "#185FA5", "#4a8fd4", "#B5D4F4"],
-        text_auto=True, aspect="auto",
-        labels=dict(x="Category", y="", color="Count"),
-    )
-    fig_heat.update_layout(**base_layout(height=320))
-    fig_heat.update_coloraxes(colorbar_tickfont_color=FONT_CLR)
-    st.plotly_chart(fig_heat, use_container_width=True)
 
 # ─────────────────────────────────────────────────────────────
 # TAB 7 · WORLD MAP
