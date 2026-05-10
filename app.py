@@ -378,17 +378,21 @@ with tabs[4]:
     )
 
     fig_loli.update_layout(
-        **base_layout(height=500),
-        showlegend=False,
-        xaxis=dict(
-            range=[0, top15["count"].max() * 1.25],
-            gridcolor=GRID_CLR,
-            title="Number of Laureates",
-        ),
-        yaxis=dict(
-            title="Country",
-        ),
-    )
+    height=500,
+    plot_bgcolor=PLOT_BG,
+    paper_bgcolor=PAPER_BG,
+    font=dict(color=FONT_CLR, family="Georgia"),
+    margin=dict(l=60, r=30, t=50, b=50),
+    showlegend=False,
+    xaxis=dict(
+        range=[0, top15["count"].max() * 1.25],
+        gridcolor=GRID_CLR,
+        title="Number of Laureates",
+    ),
+    yaxis=dict(
+        title="Country",
+    ),
+)
 
     st.plotly_chart(fig_loli, use_container_width=True)
 
