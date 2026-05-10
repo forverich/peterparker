@@ -368,18 +368,20 @@ with tabs[4]:
         textfont=dict(color=FONT_CLR, size=11),
         hovertemplate="<b>%{y}</b><br>%{x} laureates<extra></extra>",
     ))
-   fig_loli.update_layout(
-    height=500,
-    xaxis=dict(
-        title="X"
-    ),
-    yaxis=dict(
-        title="Y"
+      fig_loli.update_layout(
+        **base_layout(height=500),
+        showlegend=False,
+        xaxis=dict(
+            range=[0, top15["count"].max() * 1.25],
+            gridcolor=GRID_CLR,
+            title="Number of Laureates",
+        ),
+        yaxis=dict(
+            title="Country",
+        ),
     )
-)
-        xaxis=dict(range=[0, top15["count"].max() * 1.25],
-                   gridcolor=GRID_CLR),
-    )
+
+    st.plotly_chart(fig_loli, use_container_width=True)
     st.plotly_chart(fig_loli, use_container_width=True)
 
 # ─────────────────────────────────────────────────────────────
