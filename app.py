@@ -329,7 +329,7 @@ with tabs[3]:
 
         medians = df_box.groupby("category")["age"].agg(["median","mean","min","max"]).round(1)
         medians.columns = ["Median", "Mean", "Min", "Max"]
-        st.dataframe(medians.style.background_gradient(cmap="Blues"), use_container_width=True)
+        st.dataframe(medians, use_container_width=True)
 
 # ─────────────────────────────────────────────────────────────
 # TAB 5 · LOLLIPOP CHART
