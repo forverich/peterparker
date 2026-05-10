@@ -370,9 +370,12 @@ with tabs[4]:
     ))
    fig_loli.update_layout(
     height=500,
-    xaxis=dict(...),
-    yaxis=dict(...)
-)
+    xaxis=dict(
+        title="X"
+    ),
+    yaxis=dict(
+        title="Y"
+    )
 )
         xaxis=dict(range=[0, top15["count"].max() * 1.25],
                    gridcolor=GRID_CLR),
